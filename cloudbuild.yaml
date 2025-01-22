@@ -73,6 +73,12 @@ options:
   env:
     - TF_VAR_project_id=$PROJECT_ID
     - TF_VAR_app_tag=$BUILD_ID
+    - TF_VAR_region=asia-northeast1
+    - TF_VAR_app_name=DEMO
+    - TF_VAR_app_tag=latest
+    - TF_VAR_gemini_model=gemini-1.5-flash-001
+    - TF_VAR_gemini_segment_model=image-segmentation-001
+    - TF_VAR_gemini_image_edit_enabled=true
 tags:
   - terraform
   - img-studio
