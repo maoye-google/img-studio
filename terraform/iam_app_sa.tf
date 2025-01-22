@@ -1,5 +1,5 @@
 resource "google_service_account" "app_sa" {
-  account_id   = ${local.app_name}-imgstudio-sa
+  account_id   = "${local.app_name}-imgstudio-sa"
   display_name = "Img Studio Application Service Account"
   create_ignore_already_exists = true
 }
