@@ -67,6 +67,7 @@ export default function Page() {
       </Box>
     )
   } else if (process.env.NEXT_PUBLIC_EDIT_ENABLED === 'false') {
+    console.log('process.env.NEXT_PUBLIC_EDIT_ENABLED = ' + process.env.NEXT_PUBLIC_EDIT_ENABLED)
     redirect('/generate')
   } else {
     return (
