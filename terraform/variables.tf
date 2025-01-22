@@ -1,10 +1,9 @@
 locals {
-  resource_labels = merge(var.resource_labels, {
+  resource_labels = {
     deployed_by = "cloudbuild"
     repo        = "img-studio"
     terraform   = "true"
-    }
-  )
+  }
 
   app_name           = var.app_name
   app_container    = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/img-studio-app:${var.app_tag}"
@@ -33,6 +32,11 @@ variable "app_tag" {
 variable "gemini_model" {
   description = "Default Gemini Model Name for Text Generation"
   default     = "gemini-1.5-flash-001"
+}
+
+variable "gemini_edit_model" {
+  description = "Default Gemini Model Name for Image Generation and Edit"
+  default     = "gemini-3.0-generate-001"
 }
 
 variable "gemini_segment_model" {

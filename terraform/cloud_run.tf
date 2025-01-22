@@ -25,12 +25,16 @@ resource "google_cloud_run_v2_service" "img_studio_service" {
         value = var.gemini_model
       }
       env {
-        name  = "NEXT_PUBLIC_SEG_MODEL"
-        value = var.gemini_segment_model
-      }
-      env {
         name  = "NEXT_PUBLIC_EDIT_ENABLED"
         value = var.gemini_image_edit_enabled
+      }
+      env {
+        name  = "_NEXT_PUBLIC_EDIT_MODEL"
+        value = var.gemini_edit_model
+      }
+      env {
+        name  = "NEXT_PUBLIC_SEG_MODEL"
+        value = var.gemini_segment_model
       }
       env {
         name  = "NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS"
