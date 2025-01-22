@@ -16,12 +16,12 @@ import React, { useState } from 'react'
 import { Box, IconButton, Stack, CircularProgress } from '@mui/material'
 import theme from '../../theme'
 import ReferenceImageDropzone from './ReferenceImageDropzone'
-import { maxReferences, ReferenceObjectI, referenceTypeField } from '@/src/app/api/generate-utils'
+import { maxReferences, ReferenceObjectI, referenceTypeField } from '@/app/api/generate-utils'
 import { FormInputTextLine } from '../ux-components/InputTextLine'
 import FormInputChipGroup from '../ux-components/InputChipGroup'
 import { Clear, ForkLeftSharp } from '@mui/icons-material'
 import { GeminiButton } from '../ux-components/GeminiButton'
-import { cleanResult, getDescriptionFromGemini } from '@/src/app/api/gemini/action'
+import { cleanResult, getDescriptionFromGemini } from '@/app/api/gemini/action'
 const { palette } = theme
 
 export const ReferenceBox = ({

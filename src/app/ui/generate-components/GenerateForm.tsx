@@ -68,7 +68,7 @@ import CustomTooltip from '../ux-components/Tooltip'
 import { CustomizedAccordion, CustomizedAccordionSummary } from '../ux-components/Accordion-SX'
 import { useAppContext } from '../../context/app-context'
 import { ReferenceBox } from './ReferenceBox'
-import { EditImageFormFields } from '@/src/app/api/edit-utils'
+import { EditImageFormFields } from '@/app/api/edit-utils'
 const { palette } = theme
 
 export default function GenerateForm({
