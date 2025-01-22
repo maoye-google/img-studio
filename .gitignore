@@ -26,6 +26,10 @@ yarn-error.log*
 .env*.local
 .env
 
+IDE Files
+.idx
+.idx/* */
+
 # vercel
 .vercel
 

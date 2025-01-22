@@ -11,37 +11,37 @@ resource "google_project_iam_member" "datastore_user" {
   member  = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_project_iam_member" "datastore_user" {
+resource "google_project_iam_member" "logging_user" {
   project = var.project_id
   role    = "roles/logging.logWriter"
   member  = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_project_iam_member" "datastore_user" {
+resource "google_project_iam_member" "secret_user" {
   project = var.project_id
   role    = "roles/secretmanager.secretAccessor"
   member  = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_project_iam_member" "datastore_user" {
+resource "google_project_iam_member" "sa_token_user" {
   project = var.project_id
   role    = "roles/iam.serviceAccountTokenCreator"
   member  = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_project_iam_member" "datastore_user" {
+resource "google_project_iam_member" "gcs_user" {
   project = var.project_id
   role    = "roles/storage.objectCreator"
   member  = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_project_iam_member" "datastore_user" {
+resource "google_project_iam_member" "gcs_viewer" {
   project = var.project_id
   role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_project_iam_member" "datastore_user" {
+resource "google_project_iam_member" "vertex_user" {
   project = var.project_id
   role    = "roles/aiplatform.user"
   member  = "serviceAccount:${google_service_account.app_sa.email}"
