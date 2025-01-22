@@ -52,13 +52,24 @@ export const EditImageFormFields = {
   modelVersion: {
     type: 'select',
     label: 'Model version',
-    default: 'imagen-3.0-capability-001',
+    default: 'imagen-3.0-generate-001',
+    // default: 'imagen-3.0-capability-001',
     options: [
       {
         value: 'imagen-3.0-capability-001',
-        label: 'Imagen 3',
+        label: 'Imagen 3.0 Capability',
         indication: '',
       },
+      {
+        value: 'imagen-3.0-generate-001',
+        label: 'Imagen 3.0',
+        indication: '',
+      },
+      {
+        value: 'imagegeneration@006',
+        label: 'Imagen 2',
+        indication: '',
+      }
     ],
     isDataResetable: false,
   },
