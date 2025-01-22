@@ -21,11 +21,11 @@ import { useEffect, useState } from 'react'
 import { Typography } from '@mui/material'
 
 import theme from '../../theme'
-import { getSignedURL } from '@/app/api/cloud-storage/action'
-import { ExportErrorWarning } from '@/app/ui/transverse-components/ExportAlerts'
-import { fetchDocumentsInBatches } from '@/app/api/firestore/action'
-import { ImageMetadataWithSignedUrl } from '@/app/api/export-utils'
-import LibraryImagesDisplay from '@/app/ui/library-components/LibraryImagesDisplay'
+import { getSignedURL } from '@/src/app/api/cloud-storage/action'
+import { ExportErrorWarning } from '@/src/app/ui/transverse-components/ExportAlerts'
+import { fetchDocumentsInBatches } from '@/src/app/api/firestore/action'
+import { ImageMetadataWithSignedUrl } from '@/src/app/api/export-utils'
+import LibraryImagesDisplay from '@/src/app/ui/library-components/LibraryImagesDisplay'
 import LibraryFiltering from '../../ui/library-components/LibraryFiltering'
 const { palette } = theme
 

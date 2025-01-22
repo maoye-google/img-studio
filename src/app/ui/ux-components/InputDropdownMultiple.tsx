@@ -18,7 +18,7 @@ import { useState } from 'react'
 import { TextField, MenuItem, ListItemText, OutlinedInput, IconButton, Stack } from '@mui/material'
 
 import theme from '../../theme'
-import { semanticClasses } from '@/app/api/edit-utils'
+import { semanticClasses } from '@/src/app/api/edit-utils'
 import { Autorenew } from '@mui/icons-material'
 const { palette } = theme
 

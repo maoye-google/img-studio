@@ -41,7 +41,7 @@ import theme from '../../theme'
 import { useState } from 'react'
 import { RatioToPixel } from '../../api/generate-utils'
 import { ChipGroup } from '../ux-components/InputChipGroup'
-import { OutpaintPreview } from '../edit-components/OutpaintPreview'
+import { OutpaintPreview } from './OutpaintPreview'
 import { CustomizedAvatarButton, CustomizedIconButton, CustomizedSendButton } from '../ux-components/Button-SX'
 import CustomTooltip from '../ux-components/Tooltip'
 const { palette } = theme
