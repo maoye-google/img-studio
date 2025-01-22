@@ -44,8 +44,3 @@ variable "gemini_image_edit_enabled" {
   description = "Whether the target project has been whitelisted for Image Edit Feature"
   default     = "true" # false
 }
-
-variable "gemini_image_edit_enabled" {
-  description = "Whether the target project has been whitelisted for Image Edit Feature"
-  default     = "true" # false
-}
