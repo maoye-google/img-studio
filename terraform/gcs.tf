@@ -1,6 +1,6 @@
 # Default GCS Bucket to store generated files
 resource "google_storage_bucket" "output_bucket" {
- name          = var.output_bucket_name
+ name          = "${locals.app_name}-imgstudio-output"
  location      = var.region
  uniform_bucket_level_access = true
  force_destroy = true
@@ -8,7 +8,7 @@ resource "google_storage_bucket" "output_bucket" {
 
 # Default GCS Bucket for team to share images
 resource "google_storage_bucket" "team_bucket" {
- name          = var.output_bucket_name
+ name          = "${locals.app_name}-imgstudio-library"
  location      = var.region
  uniform_bucket_level_access = true
  force_destroy = true
@@ -16,7 +16,7 @@ resource "google_storage_bucket" "team_bucket" {
 
 # Default GCS Bucket to store JSON configuration files
 resource "google_storage_bucket" "config_bucket" {
- name          = var.config_bucket_name
+ name          = "${locals.app_name}-imgstudio-export-config"
  location      = var.region
  uniform_bucket_level_access = true
  force_destroy = true

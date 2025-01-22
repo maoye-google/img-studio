@@ -46,7 +46,7 @@ resource "google_cloud_run_v2_service" "img_studio_service" {
       }
       env {
         name  = "NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI"
-        value = google_storage_bucket_object.uploaded_config.media_link
+        value = "gs://${google_storage_bucket_object.uploaded_config.bucket}/${google_storage_bucket_object.uploaded_config.name}"
       }
     }
     annotations = {

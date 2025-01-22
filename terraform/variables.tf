@@ -49,18 +49,3 @@ variable "gemini_image_edit_enabled" {
   description = "Whether the target project has been whitelisted for Image Edit Feature"
   default     = "true" # false
 }
-
-variable "output_bucket_name" {
-  description = "Default GCS Bucket Name to store output files"
-  default     = "${var.app_name}-imgstudio-output"
-}
-
-variable "output_bucket_name" {
-  description = "Default GCS Bucket Name to store output files"
-  default     = "${var.app_name}-imgstudio-library"
-}
-
-variable "config_bucket_name" {
-  description = "Default GCS Bucket Name to store JSON configuration files"
-  default     = "${var.app_name}-imgstudio-export-config"
-}
