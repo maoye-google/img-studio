@@ -31,8 +31,8 @@ import {
 } from '@mui/material'
 
 import theme from '../../theme'
-import { ImageMetadataI, ImageMetadataWithSignedUrl } from '@/app/api/export-utils'
-import { blurDataURL } from '@/app/ui/ux-components/BlurImage'
+import { ImageMetadataI, ImageMetadataWithSignedUrl } from '@/src/app/api/export-utils'
+import { blurDataURL } from '@/src/app/ui/ux-components/BlurImage'
 import { ArrowBackIos, ArrowForwardIos, Info } from '@mui/icons-material'
 import { CustomizedIconButton } from '../ux-components/Button-SX'
 import ExploreDialog from './ExploreDialog'
