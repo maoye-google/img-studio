@@ -6,7 +6,7 @@ locals {
     }
   )
 
-  app_name           = "demo"
+  app_name           = var.app_name
   app_container    = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/img-studio-app:${var.app_tag}"
 }
 
@@ -18,6 +18,11 @@ variable "project_id" {
 variable "region" {
   type        = string
   description = "GCP region"
+}
+
+variable "app_name" {
+  description = "Img Studio Application Name"
+  default     = "demo"
 }
 
 variable "app_tag" {
@@ -47,39 +52,15 @@ variable "gemini_image_edit_enabled" {
 
 variable "output_bucket_name" {
   description = "Default GCS Bucket Name to store output files"
-  default     = "${locals.app_name}-imgstudio-output"
+  default     = "${var.app_name}-imgstudio-output"
 }
 
 variable "output_bucket_name" {
   description = "Default GCS Bucket Name to store output files"
-  default     = "${locals.app_name}-imgstudio-library"
+  default     = "${var.app_name}-imgstudio-library"
 }
 
 variable "config_bucket_name" {
   description = "Default GCS Bucket Name to store JSON configuration files"
-  default     = "${locals.app_name}-imgstudio-export-config"
+  default     = "${var.app_name}-imgstudio-export-config"
 }
-
-
-
-
-      env {
-        name  = "NEXT_PUBLIC_EDIT_ENABLED"
-        value = google_pubsub_topic.rcs_topic.name
-      }
-      env {
-        name  = "NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS"
-        value = google_pubsub_topic.rcs_topic.name
-      }
-      env {
-        name  = "NEXT_PUBLIC_OUTPUT_BUCKET"
-        value = google_pubsub_topic.rcs_topic.name
-      }
-      env {
-        name  = "NEXT_PUBLIC_TEAM_BUCKET"
-        value = google_pubsub_topic.rcs_topic.name
-      }
-      env {
-        name  = "NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI"
-        value = google_pubsub_topic.rcs_topic.name
-      }

@@ -1,5 +1,5 @@
 resource "google_service_account" "iap_sa" {
-  email   = "s"ervice-${data.google_project.project.number}@gcp-sa-iap.iam.gserviceaccount.com"
+  email   = "service-${data.google_project.project.number}@gcp-sa-iap.iam.gserviceaccount.com"
   display_name = "Identity-Aware Proxy's Default Service Account"
   create_ignore_already_exists = true
 }
