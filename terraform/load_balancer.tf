@@ -56,8 +56,8 @@ resource "google_compute_backend_service" "default" {
 
   backend {
     group           = google_compute_region_network_endpoint_group.cloud_run_neg.id
-    balancing_mode  = "RATE" # Or UTILIZATION
-    max_rate_per_endpoint = 10 # Adjust as needed.  Not relevant if using UTILIZATION balancing mode
+    # balancing_mode  = "RATE" # Balancing mode is no longer valid for Serverless NEG backend
+    # max_rate_per_endpoint = 10 # Adjust as needed.  Not relevant if using UTILIZATION balancing mode
   }
 
   # Using NEG as backend means no longer need to define health check explicitly
