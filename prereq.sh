@@ -59,10 +59,11 @@ gcloud services enable cloudbuild.googleapis.com \
     dataform.googleapis.com \
     aiplatform.googleapis.com \
     storage-component.googleapis.com \
-    firestore.googleapis.com \
     --project $PROJECT_ID
 
 gcloud services enable \
+    firestore.googleapis.com \
+    firebaserules.googleapis.com \
     cloudresourcemanager.googleapis.com \
     compute.googleapis.com \
     servicenetworking.googleapis.com \

@@ -30,21 +30,24 @@ resource "google_firestore_index" "db-index" {
   }
 }
 
-resource "google_firebaserules_ruleset" "firestore" {
+resource "google_firebaserules_ruleset" "security_rules" {
   project = var.project_id
 
   source {
     files {
       name = "firestore.rules"
-      content = <<EOF
-        rules_version = 2; 
-        service cloud.firestore {
-            match /databases/{database}/documents { 
-                match /{document=**} { 
-                    allow read, write: ; 
-                        if get(/databases/$(database)/documents/request.auth.uid).data.serviceAccount == '${google_service_account.app_sa.email}'
-                    allow delete: false} } }
-    EOF
+      content = <<EOT
+rules_version = '2';
+service cloud.firestore {
+	match /databases/{database}/documents { 
+		match /{document=**} { 
+			allow read, write: if get(/databases/$(database)/documents/request.auth.uid).data.serviceAccount == "${google_service_account.app_sa.email}" ;
+			allow delete: if false; 
+		} 
+	} 
+}
+
+EOT
     }
   }
   depends_on = [

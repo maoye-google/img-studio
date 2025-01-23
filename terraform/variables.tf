@@ -37,6 +37,7 @@ variable "app_name" {
 variable "app_container_name" {
   type        = string
   description = "Img Studio Application Name"
+  default = "UNKNOWN"
 }
 
 variable "app_tag" {
