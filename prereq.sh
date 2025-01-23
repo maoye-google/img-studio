@@ -24,7 +24,7 @@ add_iam_member()
 if [ -z "$GOOGLE_CLOUD_PROJECT" ]
 then
    echo Project not set!
-   echo What Project Id do you want to deploy the ImgStudio to?
+   echo ▶  What Project Id do you want to deploy the ImgStudio to?
    read var_project_id
    gcloud config set project $var_project_id
    export PROJECT_ID=$var_project_id
@@ -88,23 +88,6 @@ add_iam_member $MEMBER roles/secretmanager.admin
 add_iam_member $MEMBER roles/datastore.owner
 # Load Balancer admin ?
 # DNS admin ?
-
-# ----------------------------------------------------
-
-# Set up the DNS Record management project
-echo Do you need Automatic DNS Setup y/n ?   
-echo n means manual setup
-read var_dns_setup
-if ["n" -e $var_dns_setup]
-then
-    export NEED_DNS_SETUP=False
-else
-    echo What Project ID contains your permenant DNS Zone setting ?
-    read var_dns_project_id
-    export NEED_DNS_SETUP=True
-    export DNS_PROJECT_ID = $var_dns_project_id
-    add_iam_member $MEMBER roles/dns.admin
-fi
 
 # ----------------------------------------------------
 
