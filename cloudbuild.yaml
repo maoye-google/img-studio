@@ -67,7 +67,7 @@ steps:
   dir: terraform
 # General Setting
 substitutions:
-  _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/img-studio:${BUILD_ID}
+  _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/img-studio-app:${BUILD_ID}
 options:
   dynamic_substitutions: true
   env: # everything need to be in lower case format
@@ -75,6 +75,7 @@ options:
     - TF_VAR_app_tag=$BUILD_ID
     - TF_VAR_region=asia-northeast1
     - TF_VAR_app_name=demo
+    - TF_VAR_app_container_name=${_APP_IMAGE_NAME}
     - TF_VAR_app_tag=latest
     - TF_VAR_gemini_model=gemini-1.5-flash-001
     - TF_VAR_gemini_edit_model=gemini-3.0-generate-001

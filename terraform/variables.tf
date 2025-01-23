@@ -6,7 +6,7 @@ locals {
   }
 
   app_name           = var.app_name
-  app_container    = "us-central1-docker.pkg.dev/${var.project_id}/docker-repo/img-studio-app:${var.app_tag}"
+  app_container      = var.app_container_name
 }
 
 variable "project_id" {
@@ -22,6 +22,11 @@ variable "region" {
 variable "app_name" {
   description = "Img Studio Application Name"
   default     = "demo"
+}
+
+variable "app_container_name" {
+  type        = string
+  description = "Img Studio Application Name"
 }
 
 variable "app_tag" {
