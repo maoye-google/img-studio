@@ -7,7 +7,7 @@
 
 # Example Command:
 # sh set_dns_record.sh |
-#   maoye.demo.altostrat.com \
+#   maoye-demo-dns-zone \
 #   imgstudio.maoye.demo.altostrat.com \
 #   34.149.8.124 \
 #   argolis-managed-dns

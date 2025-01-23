@@ -88,8 +88,6 @@ add_iam_member $MEMBER roles/iam.securityAdmin
 add_iam_member $MEMBER roles/compute.networkAdmin
 add_iam_member $MEMBER roles/secretmanager.admin
 add_iam_member $MEMBER roles/datastore.owner
-# Load Balancer admin ?
-# DNS admin ?
 
 # ----------------------------------------------------
 
