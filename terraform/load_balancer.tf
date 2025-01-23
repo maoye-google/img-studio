@@ -24,7 +24,7 @@ resource "google_compute_managed_ssl_certificate" "default" {
   type = "MANAGED"
 
   managed {
-    domains = [var.customer_domain, "www.${var.customer_domain}"] # Replace with your domain name(s)
+    domains = [var.customer_domain] # Replace with your domain name(s)
   }
 }
 
@@ -32,27 +32,28 @@ resource "google_compute_managed_ssl_certificate" "default" {
 resource "google_compute_url_map" "default" {
   name            = "${var.app_name}-lb"
   default_service = google_compute_backend_service.default.id
+  provider = google-beta
+  
+#  host_rule {
+#    hosts        = ["*"]
+#    path_matcher = "allpaths"
+#  }
 
-  host_rule {
-    hosts        = ["*"]
-    path_matcher = "allpaths"
-  }
+#  path_matcher {
+#    name            = "allpaths"
+#    default_service = google_compute_backend_service.default.id
 
-  path_matcher {
-    name            = "allpaths"
-    default_service = google_compute_backend_service.default.id
-
-    path_rule {
-      paths   = ["/*"]
-      service = google_compute_backend_service.default.id
-    }
-  }
+#    path_rule {
+#      paths   = ["/*"]
+#      service = google_compute_backend_service.default.id
+#    }
+#  }
 }
 
 resource "google_compute_backend_service" "default" {
   name                  = "${var.app_name}-lb-backend"
   port_name             = "http"
-  protocol              = "HTTP"
+  protocol              = "HTTPS"
   load_balancing_scheme = "EXTERNAL"
 
   backend {
@@ -81,7 +82,7 @@ resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
 }
 
 output "load_balancer_external_ip" {
-  value = google_compute_global_forwarding_rule.default.ip_address.value
+  value = google_compute_global_forwarding_rule.default.ip_address
 }
 
 output "expected_customer_domain" {

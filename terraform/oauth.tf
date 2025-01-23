@@ -40,7 +40,7 @@ resource "google_iap_web_backend_service_iam_binding" "iap_binding" {
   role               = "roles/iap.httpsResourceAccessor"
 
   members = [
-    # "user:admin@maoye.altostrat.com",
+    "user:admin@maoye.altostrat.com", # add your preferred test user here
     google_project_service_identity.iap_sa.member
   ]
 }
