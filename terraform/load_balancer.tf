@@ -65,6 +65,7 @@ resource "google_compute_backend_service" "default" {
   # health_checks = [google_compute_health_check.http.id]
 
   iap {
+    enabled              = true
     oauth2_client_id     = google_iap_client.iap_oauth_client.client_id 
     oauth2_client_secret = google_iap_client.iap_oauth_client.secret
   }
