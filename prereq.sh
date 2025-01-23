@@ -54,9 +54,13 @@ gcloud services enable cloudbuild.googleapis.com \
     aiplatform.googleapis.com \
     storage-component.googleapis.com \
     firestore.googleapis.com \
+    --project $PROJECT_ID
+
+gcloud services enable \
     cloudresourcemanager.googleapis.com \
     compute.googleapis.com \
     servicenetworking.googleapis.com \
+    serviceusage.googleapis.com \
     storage.googleapis.com \
     iam.googleapis.com \
     run.googleapis.com \
@@ -77,7 +81,7 @@ add_iam_member $MEMBER roles/secretmanager.admin
 # firebase admin ?
 # DNS admin ?
 
-
+# Create Service Identity to access Google API
 iap_sa=service-$PROJECT_NUMBER@gcp-sa-iap.iam.gserviceaccount.com
 echo "Creating Google Managed service account ${iap_sa}..."
 gcloud beta services identity create --service=iap.googleapis.com --project="${PROJECT_ID}"
@@ -86,25 +90,26 @@ add_iam_member $MEMBER roles/run.invoker
 add_iam_member $MEMBER roles/iap.httpsResourceAccessor
 
 
-if [ -z "$CUSTOMER_APP_NAME" ]
-then
-   echo Customer App Name not set!
-   echo What Name do you want to use for this ImgStudio App ? i.e. "demo"
-   read var_customer_app_name
-   export CUSTOMER_APP_NAME=$var_customer_app_name
-fi
+# Implement this part inside TF
+# if [ -z "$CUSTOMER_APP_NAME" ]
+# then
+#    echo Customer App Name not set!
+#    echo What Name do you want to use for this ImgStudio App ? i.e. "demo"
+#    read var_customer_app_name
+#    export CUSTOMER_APP_NAME=$var_customer_app_name
+# fi
 
-app_sa_name=$CUSTOMER_APP_NAME-imgstudio-sa
-echo "Creating Application Service Account"
-gcloud iam service-accounts create $app_sa_name --display-name='Application Service Account' --project="${PROJECT_ID}"
-MEMBER=serviceAccount:$app_sa_name@${PROJECT_ID}.iam.gserviceaccount.com
-add_iam_member $MEMBER roles/datastore.user
-add_iam_member $MEMBER roles/logging.logWriter
-add_iam_member $MEMBER roles/secretmanager.secretAccessor
-add_iam_member $MEMBER roles/iam.serviceAccountTokenCreator
-add_iam_member $MEMBER roles/storage.objectCreator
-add_iam_member $MEMBER roles/storage.objectViewer
-add_iam_member $MEMBER roles/aiplatform.user
+# app_sa_name=$CUSTOMER_APP_NAME-imgstudio-sa
+# echo "Creating Application Service Account"
+# gcloud iam service-accounts create $app_sa_name --display-name='Application Service Account' --project="${PROJECT_ID}"
+# MEMBER=serviceAccount:$app_sa_name@${PROJECT_ID}.iam.gserviceaccount.com
+# add_iam_member $MEMBER roles/datastore.user
+# add_iam_member $MEMBER roles/logging.logWriter
+# add_iam_member $MEMBER roles/secretmanager.secretAccessor
+# add_iam_member $MEMBER roles/iam.serviceAccountTokenCreator
+# add_iam_member $MEMBER roles/storage.objectCreator
+# add_iam_member $MEMBER roles/storage.objectViewer
+# add_iam_member $MEMBER roles/aiplatform.user
 
 
 echo Create Docker repository
