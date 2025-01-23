@@ -72,3 +72,7 @@ resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
     service = google_cloud_run_v2_service.img_studio_service.name
   }
 }
+
+output "load_balancer_external_ip" {
+  value = google_compute_global_forwarding_rule.default.ip_address
+}
