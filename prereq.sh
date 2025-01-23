@@ -79,7 +79,7 @@ gcloud services enable \
 # ----------------------------------------------------
 
 echo "Granting Cloud Build's Service Account IAM roles to deploy the resources..."
-PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
+export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
 # MEMBER=serviceAccount:$PROJECT_NUMBER@cloudbuild.gserviceaccount.com
 # Since default service account for Cloud Build is changed to Compute Engine's SA, here we need to grant permissions to the correct SA instead.
 MEMBER=serviceAccount:$PROJECT_NUMBER-compute@developer.gserviceaccount.com

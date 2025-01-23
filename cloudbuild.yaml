@@ -59,6 +59,22 @@ steps:
     -backend-config="bucket=$PROJECT_ID-tf-state" \
     -backend-config="prefix=img-studio"
   dir: terraform
+- id: 'tf destroy'
+  name: 'hashicorp/terraform:1.3.6'
+  args: 
+  - destroy
+  - -target=google_iap_brand.iap_oauth_app
+  - -target=google_iap_client.iap_oauth_client
+  - -auto-approve
+  dir: terraform
+- id: 'tf import'
+  name: 'hashicorp/terraform:1.3.6'
+  args: 
+  - import
+  - -state=terraform/terraform.tfstate
+  - "google_iap_brand.iap_oauth_app"
+  - "projects/$PROJECT_ID/brands/$PROJECT_NUMBER"
+  dir: terraform
 - id: 'Terraform Apply'
   name: 'hashicorp/terraform:1.3.6'
   args: 
@@ -67,7 +83,7 @@ steps:
   dir: terraform
 # General Setting
 substitutions:
-  _APP_NAME: 'imgstudio-3'
+  _APP_NAME: 'imgstudio-4'
   _APP_REGION: 'asia-northeast1'
   _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/${_APP_NAME}:${BUILD_ID}
   _NEXT_PUBLIC_PROJECT_ID: ${PROJECT_ID}

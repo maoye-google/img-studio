@@ -3,24 +3,17 @@ resource "google_project_service" "project_iap_service" {
   service = "iap.googleapis.com"
 }
 
-resource "google_iap_brand" "existing_iap_oauth_app" {
-  provider = google-beta
-  project = var.project_id
-}
-
 resource "google_iap_brand" "iap_oauth_app" {
   provider = google-beta
   support_email     = "${data.google_project.project.number}-compute@developer.gserviceaccount.com"
   project           = var.project_id
   application_title = var.app_name
 
-   # Create only if the brand doesn't exist
-  count = google_iap_brand.existing_iap_oauth_app.id == null ? 1 : 0
 }
 
 # Create OAuth Client ID
 resource "google_iap_client" "iap_oauth_client" {
-  brand        = var.app_name
+  brand        = google_iap_brand.iap_oauth_app.name
   display_name = "IAP OAuth Client"
 }
 
