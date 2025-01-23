@@ -14,6 +14,16 @@ variable "project_id" {
   default     = null
 }
 
+variable "need_dns_setup" {
+  description = "Whether DNS Record Setup Should be done as part of automation ?"
+  default     = false
+}
+
+variable "dns_project_id" {
+  description = "GCP Project ID which contains permenant DNS Zone to be used"
+  default     = null
+}
+
 variable "region" {
   type        = string
   description = "GCP region"
@@ -32,6 +42,11 @@ variable "app_container_name" {
 variable "app_tag" {
   description = "Img Studio container tag"
   default     = "latest"
+}
+
+variable "customer_domain" {
+  description = "Customer Domain Name"
+  default     = "imgstudio.mycompany.com"
 }
 
 variable "gemini_model" {

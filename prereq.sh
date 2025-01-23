@@ -19,6 +19,8 @@ add_iam_member()
   gcloud projects add-iam-policy-binding $PROJECT_ID --member=$1 --role=$2
 }
 
+# ----------------------------------------------------
+
 if [ -z "$GOOGLE_CLOUD_PROJECT" ]
 then
    echo Project not set!
@@ -30,6 +32,8 @@ else
    export PROJECT_ID=$GOOGLE_CLOUD_PROJECT
 fi
 
+# ----------------------------------------------------
+
 REPO_LOCATION="us-central1"
 
 echo Running prerequisites on project $PROJECT_ID
@@ -40,6 +44,8 @@ else
     echo Creating Terraform state bucket...
     gsutil mb $BUCKET_NAME
 fi
+
+# ----------------------------------------------------
 
 echo Enabling required APIs...
 gcloud services enable cloudbuild.googleapis.com \
@@ -68,6 +74,8 @@ gcloud services enable \
     dns.googleapis.com \
     --project $PROJECT_ID
 
+# ----------------------------------------------------
+
 echo "Granting Cloud Build's Service Account IAM roles to deploy the resources..."
 PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
 # MEMBER=serviceAccount:$PROJECT_NUMBER@cloudbuild.gserviceaccount.com
@@ -77,9 +85,28 @@ add_iam_member $MEMBER roles/editor
 add_iam_member $MEMBER roles/iam.securityAdmin
 add_iam_member $MEMBER roles/compute.networkAdmin
 add_iam_member $MEMBER roles/secretmanager.admin
+add_iam_member $MEMBER roles/datastore.owner
 # Load Balancer admin ?
-# firebase admin ?
 # DNS admin ?
+
+# ----------------------------------------------------
+
+# Set up the DNS Record management project
+echo Do you need Automatic DNS Setup y/n ?   
+echo n means manual setup
+read var_dns_setup
+if ["n" -e $var_dns_setup]
+then
+    export NEED_DNS_SETUP=False
+else
+    echo What Project ID contains your permenant DNS Zone setting ?
+    read var_dns_project_id
+    export NEED_DNS_SETUP=True
+    export DNS_PROJECT_ID = $var_dns_project_id
+    add_iam_member $MEMBER roles/dns.admin
+fi
+
+# ----------------------------------------------------
 
 # Create Service Identity to access Google API
 iap_sa=service-$PROJECT_NUMBER@gcp-sa-iap.iam.gserviceaccount.com
@@ -88,6 +115,9 @@ gcloud beta services identity create --service=iap.googleapis.com --project="${P
 MEMBER=serviceAccount:$iap_sa
 add_iam_member $MEMBER roles/run.invoker
 add_iam_member $MEMBER roles/iap.httpsResourceAccessor
+
+
+# ----------------------------------------------------
 
 
 # Implement this part inside TF
@@ -111,6 +141,7 @@ add_iam_member $MEMBER roles/iap.httpsResourceAccessor
 # add_iam_member $MEMBER roles/storage.objectViewer
 # add_iam_member $MEMBER roles/aiplatform.user
 
+# ----------------------------------------------------
 
 echo Create Docker repository
 if gcloud artifacts repositories describe docker-repo --location=$REPO_LOCATION; then
