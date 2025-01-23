@@ -4,12 +4,9 @@ resource "google_project_service" "project_iap_service" {
 }
 
 resource "google_iap_brand" "iap_oauth_app" {
-  support_email     = "maoye@google.com" # Replace with your support email
+  support_email     = "${data.google_project.project.number}-compute@developer.gserviceaccount.com"
   project           = var.project_id
-
-  application_title = "(IAP protected) {ver.app_name}"
-
-  # deletion_policy = "DELETE"
+  application_title = var.app_name
 }
 
 # Create OAuth Client ID
