@@ -49,23 +49,3 @@ variable "customer_domain" {
   description = "Customer Domain Name"
   default     = "imgstudio.mycompany.com"
 }
-
-variable "gemini_model" {
-  description = "Default Gemini Model Name for Text Generation"
-  default     = "gemini-1.5-flash-001"
-}
-
-variable "gemini_edit_model" {
-  description = "Default Gemini Model Name for Image Generation and Edit"
-  default     = "gemini-3.0-generate-001"
-}
-
-variable "gemini_segment_model" {
-  description = "Default Gemini Segmentation Model Name for Image Segmentation"
-  default     = "image-segmentation-001"
-}
-
-variable "gemini_image_edit_enabled" {
-  description = "Whether the target project has been whitelisted for Image Edit Feature"
-  default     = "true" # false
-}

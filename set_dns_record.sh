@@ -19,7 +19,7 @@
 # Set default values if arguments are not provided
 IP_ADDRESS="$1"
 RECORD_NAME="$2"
-DNS_ZONE=${3:-"maoye.demo.altostrat.com"}
+DNS_ZONE=${3:-"maoye-demo-dns-zone"}
 PROJECT_ID=${4:-"argolis-managed-dns"}
 
 # Check if required arguments are provided

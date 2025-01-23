@@ -102,30 +102,6 @@ add_iam_member $MEMBER roles/iap.httpsResourceAccessor
 
 # ----------------------------------------------------
 
-
-# Implement this part inside TF
-# if [ -z "$CUSTOMER_APP_NAME" ]
-# then
-#    echo Customer App Name not set!
-#    echo What Name do you want to use for this ImgStudio App ? i.e. "demo"
-#    read var_customer_app_name
-#    export CUSTOMER_APP_NAME=$var_customer_app_name
-# fi
-
-# app_sa_name=$CUSTOMER_APP_NAME-imgstudio-sa
-# echo "Creating Application Service Account"
-# gcloud iam service-accounts create $app_sa_name --display-name='Application Service Account' --project="${PROJECT_ID}"
-# MEMBER=serviceAccount:$app_sa_name@${PROJECT_ID}.iam.gserviceaccount.com
-# add_iam_member $MEMBER roles/datastore.user
-# add_iam_member $MEMBER roles/logging.logWriter
-# add_iam_member $MEMBER roles/secretmanager.secretAccessor
-# add_iam_member $MEMBER roles/iam.serviceAccountTokenCreator
-# add_iam_member $MEMBER roles/storage.objectCreator
-# add_iam_member $MEMBER roles/storage.objectViewer
-# add_iam_member $MEMBER roles/aiplatform.user
-
-# ----------------------------------------------------
-
 echo Create Docker repository
 if gcloud artifacts repositories describe docker-repo --location=$REPO_LOCATION; then
     echo Docker repository already exists!

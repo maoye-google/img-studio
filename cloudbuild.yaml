@@ -20,26 +20,26 @@ steps:
     - 'build'
     - '-t'
     - '${_APP_IMAGE_NAME}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_PROJECT_ID=$PROJECT_ID'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_VERTEX_API_LOCATION=${_NEXT_PUBLIC_VERTEX_API_LOCATION}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_GCS_BUCKET_LOCATION=${_NEXT_PUBLIC_GCS_BUCKET_LOCATION}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_GEMINI_MODEL=${_NEXT_PUBLIC_GEMINI_MODEL}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_SEG_MODEL=${_NEXT_PUBLIC_SEG_MODEL}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_EDIT_ENABLED=${_NEXT_PUBLIC_EDIT_ENABLED}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS=${_NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_OUTPUT_BUCKET=${_NEXT_PUBLIC_OUTPUT_BUCKET}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_TEAM_BUCKET=${_NEXT_PUBLIC_TEAM_BUCKET}'
-    # - '--build-arg'
-    # - '_NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI=${_NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI}'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_PROJECT_ID=$_NEXT_PUBLIC_PROJECT_ID'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_VERTEX_API_LOCATION=$_NEXT_PUBLIC_VERTEX_API_LOCATION'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_GCS_BUCKET_LOCATION=$_NEXT_PUBLIC_GCS_BUCKET_LOCATION'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_GEMINI_MODEL=$_NEXT_PUBLIC_GEMINI_MODEL'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_SEG_MODEL=$_NEXT_PUBLIC_SEG_MODEL'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_EDIT_ENABLED=$_NEXT_PUBLIC_EDIT_ENABLED'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS=$_NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_OUTPUT_BUCKET=$_NEXT_PUBLIC_OUTPUT_BUCKET'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_TEAM_BUCKET=$_NEXT_PUBLIC_TEAM_BUCKET'
+    - '--build-arg'
+    - '_NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI=$_NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI'
     - '.'
   dir: src/
 - id: 'Img Studio - Push Image'
@@ -67,21 +67,29 @@ steps:
   dir: terraform
 # General Setting
 substitutions:
-  _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/img-studio-app:${BUILD_ID}
+  _APP_NAME: 'imgstudio-3'
+  _APP_REGION: 'asia-northeast1'
+  _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/${_APP_NAME}:${BUILD_ID}
+  _NEXT_PUBLIC_PROJECT_ID: ${PROJECT_ID}
+  _NEXT_PUBLIC_VERTEX_API_LOCATION: ${_APP_REGION}
+  _NEXT_PUBLIC_GCS_BUCKET_LOCATION: ${_APP_REGION}
+  _NEXT_PUBLIC_GEMINI_MODEL: 'gemini-1.5-flash-001'
+  _NEXT_PUBLIC_SEG_MODEL: 'image-segmentation-001'
+  _NEXT_PUBLIC_EDIT_ENABLED: 'true'
+  _NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS: ',@maoye.altostrat.com'
+  _NEXT_PUBLIC_OUTPUT_BUCKET: '${PROJECT_ID}-imgstudio-output'
+  _NEXT_PUBLIC_TEAM_BUCKET: '${PROJECT_ID}-imgstudio-library'
+  _NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI: 'gs://${PROJECT_ID}-imgstudio-export-config/export-fields-options.json'
 options:
   dynamic_substitutions: true
   env: # everything need to be in lower case format
     - TF_VAR_project_id=$PROJECT_ID
     - TF_VAR_app_tag=$BUILD_ID
-    - TF_VAR_region=asia-northeast1
-    - TF_VAR_app_name=demo
+    - TF_VAR_region=${_APP_REGION}
+    - TF_VAR_app_name=${_APP_NAME}
     - TF_VAR_app_container_name=${_APP_IMAGE_NAME}
     - TF_VAR_app_tag=latest
-    - TF_VAR_customer_domain=imgstudio-1.maoye.demo.altostrat.com
-    - TF_VAR_gemini_model=gemini-1.5-flash-001
-    - TF_VAR_gemini_edit_model=gemini-3.0-generate-001
-    - TF_VAR_gemini_segment_model=image-segmentation-001
-    - TF_VAR_gemini_image_edit_enabled=true
+    - TF_VAR_customer_domain=${_APP_NAME}.maoye.demo.altostrat.com
 tags:
   - terraform
   - img-studio
