@@ -34,9 +34,14 @@ variable "app_name" {
   default     = "demo"
 }
 
+variable "oauth_admin_email" {
+  description = "Support Email in Oauth Brand Page"
+  default     = "UNKNOWN"
+}
+
 variable "app_container_name" {
   type        = string
-  description = "Img Studio Application Name"
+  description = "Img Studio Container Full Name"
   default = "UNKNOWN"
 }
 
