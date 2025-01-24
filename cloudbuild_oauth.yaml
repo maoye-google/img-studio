@@ -1,5 +1,14 @@
 steps:
 # Terraform steps
+- id: 'Check or Create Oauth Brand'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: 
+  - './set_oauth_brand.sh'
+  - '$PROJECT_ID'
+  - 'admin@maoye.altostrat.com'
+  - '${_APP_NAME}'
+  dir: '.'
 - id: 'Terraform Inititalization'
   name: 'hashicorp/terraform:1.3.6'
   entrypoint: 'sh'
@@ -14,6 +23,7 @@ steps:
   name: 'hashicorp/terraform:1.3.6'
   args: 
   - destroy
+  # - -target=google_project_service.project_iap_service
   - -target=google_iap_brand.iap_oauth_app
   - -target=google_iap_client.iap_oauth_client
   - -auto-approve
@@ -30,12 +40,12 @@ steps:
   name: 'hashicorp/terraform:1.3.6'
   args: 
   - apply
-  - -target=google_iap_brand.iap_oauth_app
+  # - -target=google_project_service.project_iap_service
   - -target=google_iap_client.iap_oauth_client
   - -auto-approve
   dir: terraform
 substitutions:
-  _APP_NAME: 'imgstudio-4'
+  _APP_NAME: 'imgstudio'
   _APP_REGION: 'asia-northeast1'
 options:
   dynamic_substitutions: true
