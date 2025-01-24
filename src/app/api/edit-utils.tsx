@@ -59,6 +59,11 @@ export const EditImageFormFields = {
         label: 'Imagen 3',
         indication: '',
       },
+      {
+        value: 'imagegeneration@006',
+        label: 'Imagen 2',
+        indication: '',
+      },
     ],
     isDataResetable: false,
   },
