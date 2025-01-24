@@ -83,6 +83,10 @@ resource "google_compute_region_network_endpoint_group" "cloud_run_neg" {
 
 output "load_balancer_external_ip" {
   value = google_compute_global_forwarding_rule.default.ip_address
+
+  depends_on = [
+    google_compute_global_forwarding_rule.default
+  ]
 }
 
 output "expected_customer_domain" {

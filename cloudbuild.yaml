@@ -92,13 +92,21 @@ steps:
   - apply
   - -auto-approve
   dir: terraform
+# Prepare DNS Setup Data
+- id: 'Prepare DNS Setup'
+  name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: 
+  - './extract_dns_record_data.sh'
+  - '$BUILD_ID'
+  dir: '.'
 # General Setting
 substitutions:
   _APP_NAME: 'imgstudio'
   _APP_REGION: 'asia-northeast1'
   _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/${_APP_NAME}:${BUILD_ID}
-  _OAUTH_ADMIN_EMAIL: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
-  # _OAUTH_ADMIN_EMAIL: admin@maoye.altostrat.com
+  # _OAUTH_ADMIN_EMAIL: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
+  _OAUTH_ADMIN_EMAIL: admin@maoye.altostrat.com # in case oauth brand exists already, we need to make sure information alighs.
   _NEXT_PUBLIC_PROJECT_ID: ${PROJECT_ID}
   _NEXT_PUBLIC_VERTEX_API_LOCATION: ${_APP_REGION}
   _NEXT_PUBLIC_GCS_BUCKET_LOCATION: ${_APP_REGION}
