@@ -64,7 +64,7 @@ else
 
   if [ -z "$load_balancer_external_ip" ]; then
     echo "Error: load_balancer_external_ip not found in the log or is invalid."
-    echo "Please Double Check you Oauth App Setting"
+    echo "Please Double Check you Load Balancer Setting"
   else
     echo "   External Load Balancer IP = $load_balancer_external_ip"
   fi

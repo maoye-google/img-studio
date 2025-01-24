@@ -49,6 +49,7 @@ steps:
   - '${_APP_IMAGE_NAME}'
   dir: src/
 # Initialize Oauth Brand if not yet
+# If your existing Oauth Brand has different value, please first manually update them to align with the following values
 - id: 'Check or Create Oauth Brand'
   name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
@@ -69,11 +70,13 @@ steps:
     -backend-config="bucket=$PROJECT_ID-tf-state" \
     -backend-config="prefix=img-studio"
   dir: terraform
+  # [STATR FROM HERE]
+  # RUN these two steps WHEN it is the FIRST TIME for you to run the tf scripts in this project
+  # If you keep these two steps, everytime tf will destroy everything, and deploy them again.
 - id: 'tf destroy'
   name: 'hashicorp/terraform:1.3.6'
   args: 
   - destroy
-  # - -target=google_project_service.project_iap_service
   - -target=google_iap_brand.iap_oauth_app
   - -target=google_iap_client.iap_oauth_client
   - -auto-approve
@@ -86,6 +89,8 @@ steps:
   - "google_iap_brand.iap_oauth_app"
   - "projects/$PROJECT_ID/brands/$PROJECT_NUMBER"
   dir: terraform
+# [ENDS HERE]
+# Terraform Apply
 - id: 'Terraform Apply'
   name: 'hashicorp/terraform:1.3.6'
   args: 

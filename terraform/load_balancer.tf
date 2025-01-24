@@ -92,3 +92,24 @@ output "load_balancer_external_ip" {
 output "expected_customer_domain" {
   value = var.customer_domain
 }
+
+resource "time_sleep" "wait_for_forwarding_rule" {
+  # depends_on makes sure the forwarding rule creation happened before the time sleep resource creation.
+  depends_on = [google_compute_global_forwarding_rule.default]
+  # Value of create_duration should be larger than actual resource creation time.
+  create_duration = "30s"
+  # Use a trigger to ensure the time_sleep is re-evaluated when the forwarding rule's IP address changes.
+  triggers = {
+    forwarding_rule_ip = google_compute_global_forwarding_rule.default.id
+  }
+}
+
+resource "null_resource" "delay-print-out" {
+  # depends_on makes sure the time sleep resource creation happened before this resource creation.
+  depends_on = [time_sleep.wait_for_forwarding_rule]
+
+  # Now you can safely use the IP address, as it should be available:
+  provisioner "local-exec" {
+    command = "echo 'Waited 10s for IP assignement'"
+  }
+}

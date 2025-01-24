@@ -59,5 +59,9 @@ else
   echo "Target Application ($PROJECT_ID) already has an OAuth Brand."
   echo "Current Brand Information:"
   gcloud iap oauth-brands describe "$CHECK_RESULT" --project="$PROJECT_ID"
-  echo "Please use the GCP Web Console or gcloud to update it if you wish!"
+  echo "###############################################################"
+  echo "Please use the GCP Web Console or gcloud to update it accordingly"
+  echo "   Expected oauth-brands title       = $APPLICATION_TITLE"
+  echo "   Expected oauth-brands admin email = $ADMIN_EMAIL"
+  echo "###############################################################"
 fi
