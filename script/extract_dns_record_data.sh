@@ -52,7 +52,7 @@ if [ -n "$expected_customer_domain" ] && [ -n "$load_balancer_external_ip" ]; th
   echo "Please set up necessary DNS records MANUALLY ! "
   echo "   Expected Customer Domain  = $expected_customer_domain"
   echo "   External Load Balancer IP = $load_balancer_external_ip"
-  echo "Command Example : ./set_dns_record.sh $load_balancer_external_ip $expected_customer_domain"
+  echo "Command Example : ./script/set_dns_record.sh $load_balancer_external_ip $expected_customer_domain"
 else
   # Print individual error messages if either value is missing or invalid
   if [ -z "$expected_customer_domain" ]; then
