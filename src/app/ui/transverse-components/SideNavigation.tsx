@@ -161,6 +161,21 @@ export default function SideNav() {
           >
             @Agathe
           </a>
+          <br/>
+          / Automation by 
+          <a
+            href="https://www.linkedin.com/in/mao-kano-ye-7a09b63b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: 'white',
+              fontWeight: 700,
+              textDecoration: 'none',
+              margin: 2,
+            }}
+          >
+            @Mao
+          </a>
         </Typography>
       )}
       <IconButton
