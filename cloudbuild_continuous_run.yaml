@@ -107,7 +107,7 @@ steps:
   dir: 'script'
 # General Setting
 substitutions:
-  _APP_NAME: 'imgstudio' # Use your value here. Must be [lower letters, numbers, -,_]
+  _APP_NAME: 'imgstudio-4' # Use your value here. Must be [lower letters, numbers, -,_]
   _APP_REGION: 'asia-northeast1' # Use your preferred regions
   _APP_IMAGE_NAME: us-central1-docker.pkg.dev/${PROJECT_ID}/docker-repo/${_APP_NAME}:${BUILD_ID}
   _OAUTH_ADMIN_EMAIL: ${PROJECT_NUMBER}-compute@developer.gserviceaccount.com  # Use your own value here. If your Oauth Brand exists, use the same value here.
