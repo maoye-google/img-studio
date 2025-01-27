@@ -47,12 +47,13 @@
     - Step-7: Extract the external LB's IP address, and create DNS setup command
   - **Necessary Paramters**:
     - Basically, you need to manually update these values inside your <cloudbuild_*.yaml> file
-        - _APP_NAME: 'imgstudio' # Use your value here. Must be [lower letters, numbers, -,_]
-        - _APP_REGION: 'asia-northeast1' # Use your preferred regions
+        - _APP_NAME: 'imgstudio' # Use your value here. Must be [lower letters, numbers, -,_]. You can also choose to pass the value when running gcloud command
+        - _APP_REGION: 'asia-northeast1' # Use your preferred regions. You can also choose to pass the value when running gcloud command
     - See the `substitutions` part inside your config yaml file for details
 
 - **How to Run**
   - Locate yourself in the project root folder, then run `gcloud builds submit . --config=<cloudbuild_*.yaml>`
+  - Instead, if you want to manually specify a new APP_NAME (and/or REGION), you can use `--substitutions` option like `gcloud builds submit . --config=<cloudbuild_*.yaml> --substitutions=_APP_NAME=<app_name_in_lower_case>`
   - Please be aware that the clean deployment might take 5 minutes+ to run.
   - During the execution, you can check the Cloud Build and Terraform Log via CLI, or watch streaming logs in Cloud Build web UI.
 
