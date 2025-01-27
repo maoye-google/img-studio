@@ -533,10 +533,12 @@ export async function editImage(formData: EditImageFormI, appContext: appContext
       auth = new GoogleAuth({
         apiKey: APIKey,
       })
+      console.log("API Key Mode")
     } else {
       auth = new GoogleAuth({
         scopes: 'https://www.googleapis.com/auth/cloud-platform',
       })
+      console.log("Client Auth Mode")
     }
 
     client = await auth.getClient()

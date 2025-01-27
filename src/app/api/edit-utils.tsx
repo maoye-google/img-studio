@@ -56,6 +56,11 @@ export const EditImageFormFields = {
     options: [
       {
         value: 'imagen-3.0-capability-001',
+        label: 'Imagen 3 Edit',
+        indication: '',
+      },
+      {
+        value: 'imagen-3.0-generate-001',
         label: 'Imagen 3',
         indication: '',
       },
