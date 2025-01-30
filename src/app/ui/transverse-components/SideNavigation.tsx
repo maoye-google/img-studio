@@ -161,7 +161,7 @@ export default function SideNav() {
           >
             @Agathe
           </a>
-          <br><br>
+          <br/><br/>
           / Automation with TF by 
           <a
             href="https://www.linkedin.com/in/mao-kano-ye-7a09b63b/"
