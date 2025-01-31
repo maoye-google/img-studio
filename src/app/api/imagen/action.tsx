@@ -770,13 +770,19 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
 
   const editMode = formData['editMode']
 
+  if (editMode == "inpainting-remove") {
   const reqData = {
     instances: [
       {
         prompt: formData.prompt as string,
-        image : {
+        image : (editMode == "inpainting-remove") ? {}: 
+        {
           bytesBase64Encoded: refInputImage,
         },
+        base_image : (editMode == "inpainting-remove") ? 
+        {
+          bytesBase64Encoded: refInputImage,
+        }:{},
         mask : {
           image:{
             bytesBase64Encoded: refInputMask,
@@ -802,6 +808,7 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
       storageUri: editGcsURI,
     },
   }
+
 
   // if (editMode === 'EDIT_MODE_BGSWAP') {
   //   const referenceImage = reqData.instances[0].referenceImages[1] as any
