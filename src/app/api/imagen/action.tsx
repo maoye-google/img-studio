@@ -770,7 +770,6 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
 
   const editMode = formData['editMode']
 
-  if (editMode == "inpainting-remove") {
   const reqData = {
     instances: [
       {
