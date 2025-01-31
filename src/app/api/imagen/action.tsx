@@ -774,14 +774,12 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
     instances: [
       {
         prompt: formData.prompt as string,
-        image : (editMode == "inpainting-remove") ? {}: 
-        {
+        image : {
           bytesBase64Encoded: refInputImage,
         },
-        base_image : (editMode == "inpainting-remove") ? 
-        {
+        base_image : {
           bytesBase64Encoded: refInputImage,
-        }:{},
+        },
         mask : {
           image:{
             bytesBase64Encoded: refInputMask,
@@ -809,13 +807,15 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
   }
 
 
-  // if (editMode === 'EDIT_MODE_BGSWAP') {
-  //   const referenceImage = reqData.instances[0].referenceImages[1] as any
-
-  //   delete referenceImage.referenceImage
-  //   referenceImage.maskImageConfig.maskMode = 'MASK_MODE_BACKGROUND'
-  //   delete referenceImage.maskImageConfig.dilation
-  // }
+  if (editMode === 'inpainting-insert') {
+    const referenceImage = reqData.instances[0] as any
+    delete referenceImage.base_image
+  }
+  
+  if (editMode === 'inpainting-remove') {
+    const referenceImage = reqData.instances[0] as any
+    delete referenceImage.image
+  }
 
   const opts = {
     url: imagenAPIurl,

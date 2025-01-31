@@ -52,7 +52,7 @@ export const EditImageFormFields = {
   modelVersion: {
     type: 'select',
     label: 'Model version',
-    default: 'imagen-3.0-capability-001',
+    default: 'imagegeneration@006',
     options: [
       {
         value: 'imagegeneration@006',
@@ -97,7 +97,7 @@ export const EditImageFormFields = {
   editMode: {
     type: 'in-place-menu',
     label: 'What do you want to do with your image?',
-    default: 'EDIT_MODE_INPAINT_INSERTION',
+    default: 'inpainting-insert',
     options: [
       {
         value: 'inpainting-insert',
@@ -105,6 +105,7 @@ export const EditImageFormFields = {
         description: 'Change selected object(s)',
         icon: 'Insert',
         mandatoryPrompt: true,
+        promptIndication: 'Prompt - Describe what you want to insert to selected zone',
         mandatoryMask: true,
         maskButtonLabel: 'Select object(s)',
         maskButtonIcon: 'category',
