@@ -776,34 +776,14 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
         prompt: formData.prompt as string,
         image : {
           bytesBase64Encoded: refInputImage,
+        },
+        mask : {
+          image:{
+            bytesBase64Encoded: refInputMask,
+          }
         }
       }
     ],
-
-    //     //FIXME : This part needs to be changed to work with Imagen2 Edit
-    //     //Reference API Doc : 
-    //     referenceImages: [
-    //       {
-    //         referenceType: 'REFERENCE_TYPE_RAW',
-    //         referenceId: 1,
-    //         referenceImage: {
-    //           bytesBase64Encoded: refInputImage,
-    //         },
-    //       },
-    //       {
-    //         referenceType: 'REFERENCE_TYPE_MASK',
-    //         referenceId: 2,
-    //         referenceImage: {
-    //           bytesBase64Encoded: refInputMask,
-    //         },
-    //         maskImageConfig: {
-    //           maskMode: 'MASK_MODE_USER_PROVIDED',
-    //           dilation: parseFloat(formData['maskDilation']),
-    //         },
-    //       },
-    //     ],
-    //   },
-    // ],
     parameters: {
       negativePrompt: formData['negativePrompt'],
       promptLanguage: 'en',
