@@ -791,6 +791,9 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
       editConfig: {
         baseSteps: parseInt(formData['baseSteps']),
         editMode: editMode,
+        maskMode : {
+          maskType: formData['maskMode']
+        }
       },
       
       sampleCount: parseInt(formData['sampleCount']),
