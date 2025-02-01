@@ -777,9 +777,6 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
         image : {
           bytesBase64Encoded: refInputImage,
         },
-        base_image : {
-          bytesBase64Encoded: refInputImage,
-        },
         mask : {
           image:{
             bytesBase64Encoded: refInputMask,
@@ -807,15 +804,6 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
   }
 
 
-  if (editMode === 'inpainting-insert') {
-    const referenceImage = reqData.instances[0] as any
-    delete referenceImage.base_image
-  }
-  
-  if (editMode === 'inpainting-remove') {
-    const referenceImage = reqData.instances[0] as any
-    delete referenceImage.image
-  }
 
   const opts = {
     url: imagenAPIurl,

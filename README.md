@@ -6,7 +6,7 @@
   - Go to `Vertex AI` \> `Enable all recommended APIs` (they should include: **Vertex AI API, Cloud Storage API)**
   - Make sure the Vertex Service Account exists in your project `service-PROJECT_NUMBER@gcp-sa-aiplatform.iam.gserviceaccount.com`
 - **For Imagen Generation:**
-  - Models are now in public GA, **Imagen 3 Generate** (`imagen-3.0-generate-001`) and **Imagen 3 Generate Fast** (`imagen-3.0-fast-generate-001`)
+  - Models are now in public GA, **Imagen 3 Generate** (`imagen-3.0-generate-002`) and **Imagen 3 Generate Fast** (`imagen-3.0-fast-generate-001`)
   - **For people generation** (adult and/ or children), you now need to fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSduBp9w84qgim6vLriQ9p7sdz62bMJaL-nNmIVoyiOwd84SMw/viewform) to get access.
 - **For Imagen Editing & Customization**
   - You can fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLScN9KOtbuwnEh6pV7xjxib5up5kG_uPqnBtJ8GcubZ6M3i5Cw/viewform) to get access to the Preview feature (name: `imagen-3.0-capability-001`)
