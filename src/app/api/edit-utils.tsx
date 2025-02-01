@@ -126,7 +126,7 @@ export const EditImageFormFields = {
         maskButtonLabel: 'Select object(s)',
         maskButtonIcon: 'category',
         maskDialogTitle: 'Select object(s) to be removed',
-        maskDialogIndication: 'Only selected pixels within can and will be edited',
+        maskDialogIndication: 'Only selected pixels within can and will be removed',
         maskType: ['manual', 'background', 'foreground', 'semantic', 'interactive', 'prompt'],
         enabled: true,
         defaultMaskDilation: 0.01,
