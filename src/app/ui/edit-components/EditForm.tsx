@@ -324,8 +324,7 @@ export default function EditForm({
           <Button
             type="submit"
             variant="contained"
-            disabled={(maskImage === null && selectedEditMode === null) || imageToEdit === null || isLoading}
-            // disabled={(maskImage === null && selectedEditMode?.mandatoryMask) || imageToEdit === null || isLoading}
+            disabled={(maskImage === null && selectedEditMode?.mandatoryMask) || imageToEdit === null || isLoading}
             endIcon={isLoading ? <WatchLaterIcon /> : <SendIcon />}
             sx={CustomizedSendButton}
           >
