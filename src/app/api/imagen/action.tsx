@@ -790,10 +790,7 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
       seed: 1,
       editConfig: {
         baseSteps: parseInt(formData['baseSteps']),
-        editMode: editMode,
-        maskMode : {
-          maskType: formData['maskMode']
-        }
+        editMode: editMode
       },
       
       sampleCount: parseInt(formData['sampleCount']),
@@ -805,8 +802,6 @@ export async function editImageV2(formData: EditImageFormI, appContext: appConte
       storageUri: editGcsURI,
     },
   }
-
-
 
   const opts = {
     url: imagenAPIurl,
