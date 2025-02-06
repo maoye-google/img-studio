@@ -17,7 +17,7 @@ import { Controller } from 'react-hook-form'
 import { Box, Slider, TextField, Typography } from '@mui/material'
 import { FormTextInputI } from './InputInterface'
 import theme from '../../theme'
-import { EditImageFieldStyleI } from '@/app/api/edit-utils'
+import { EditImageFieldStyleI } from '@/src/app/api/edit-utils'
 const { palette } = theme
 
 export const CustomSlider = ({
