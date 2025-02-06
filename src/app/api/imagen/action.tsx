@@ -27,7 +27,7 @@ import { decomposeUri, downloadImage, getSignedURL, uploadBase64Image } from '..
 import { rewriteWithGemini, truncateLog } from '../gemini/action'
 import { appContextDataI } from '../../context/app-context'
 import { EditImageFormI } from '../edit-utils'
-const { GoogleAuth } = require('google-auth-library')
+const { GoogleAuth, APIError } = require('google-auth-library')
 
 function cleanResult(inputString: string) {
   return inputString.toString().replaceAll('\n', '').replaceAll(/\//g, '').replaceAll('*', '')
@@ -332,11 +332,20 @@ export async function generateImage(
   appContext: appContextDataI | null
 ) {
   // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client
+  let client, auth
   try {
-    const auth = new GoogleAuth({
-      scopes: 'https://www.googleapis.com/auth/cloud-platform',
-    })
+    const APIKey = process.env.VERTEX_API_KEY
+    const isAPIKey = APIKey !== undefined && APIKey !== ''
+    if (isAPIKey) {
+      auth = new GoogleAuth({
+        apiKey: APIKey,
+      })
+    } else {
+      auth = new GoogleAuth({
+        scopes: 'https://www.googleapis.com/auth/cloud-platform',
+      })
+    }
+
     client = await auth.getClient()
   } catch (error) {
     console.error(error)
@@ -344,6 +353,7 @@ export async function generateImage(
       error: 'Unable to authenticate your account to access images',
     }
   }
+
 
   let references = formData['referenceObjects']
 
@@ -440,7 +450,7 @@ export async function generateImage(
       reqData.instances[0].referenceImages[index] = newReference
     }
   }
-  const opts = {
+    const opts = {
     url: imagenAPIurl,
     method: 'POST',
     data: reqData,
@@ -514,11 +524,21 @@ export async function generateImage(
 
 export async function editImage(formData: EditImageFormI, appContext: appContextDataI | null) {
   // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client
+  let client, auth
+
   try {
-    const auth = new GoogleAuth({
-      scopes: 'https://www.googleapis.com/auth/cloud-platform',
-    })
+    const APIKey = process.env.VERTEX_API_KEY
+    const isAPIKey = APIKey !== undefined && APIKey !== ''
+    if (isAPIKey) {
+      auth = new GoogleAuth({
+        apiKey: APIKey,
+      })
+    } else {
+      auth = new GoogleAuth({
+        scopes: 'https://www.googleapis.com/auth/cloud-platform',
+      })
+    }
+
     client = await auth.getClient()
   } catch (error) {
     console.error(error)
@@ -691,11 +711,21 @@ export async function editImage(formData: EditImageFormI, appContext: appContext
 
 export async function upscaleImage(sourceUri: string, upscaleFactor: string, appContext: appContextDataI | null) {
   // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client
+  let client, auth
+
   try {
-    const auth = new GoogleAuth({
-      scopes: 'https://www.googleapis.com/auth/cloud-platform',
-    })
+    const APIKey = process.env.VERTEX_API_KEY
+    const isAPIKey = APIKey !== undefined && APIKey !== ''
+    if (isAPIKey) {
+      auth = new GoogleAuth({
+        apiKey: APIKey,
+      })
+    } else {
+      auth = new GoogleAuth({
+        scopes: 'https://www.googleapis.com/auth/cloud-platform',
+      })
+    }
+
     client = await auth.getClient()
   } catch (error) {
     console.error(error)
