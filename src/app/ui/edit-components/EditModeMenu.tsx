@@ -14,7 +14,7 @@
 
 import * as React from 'react'
 
-import { EditImageFormFields } from '@/app/api/edit-utils'
+import { EditImageFormFields } from '@/src/app/api/edit-utils'
 import { useState } from 'react'
 import {
   Icon,
