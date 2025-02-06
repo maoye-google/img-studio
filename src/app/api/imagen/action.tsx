@@ -299,7 +299,11 @@ export async function buildImageListFromBase64({
             format: format,
             prompt: usedPrompt,
             altText: `Generated image ${fileName}`,
+<<<<<<< HEAD
             key: ID,
+=======
+            key: index,
+>>>>>>> 6e5ee60 (Feat: Store Imagen base64 output in GCS)
             width: width,
             height: height,
             ratio: aspectRatio,
