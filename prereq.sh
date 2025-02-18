@@ -49,7 +49,8 @@ fi
 # ----------------------------------------------------
 
 echo Enabling required APIs...
-gcloud services enable cloudbuild.googleapis.com \
+gcloud services enable \
+    cloudbuild.googleapis.com \
     dataflow.googleapis.com \
     notebooks.googleapis.com \
     compute.googleapis.com \
@@ -86,6 +87,7 @@ MEMBER=serviceAccount:$PROJECT_NUMBER-compute@developer.gserviceaccount.com
 add_iam_member $MEMBER roles/datastore.user
 add_iam_member $MEMBER roles/logging.logWriter
 add_iam_member $MEMBER roles/secretmanager.secretAccessor
+add_iam_member $MEMBER roles/iam.securityAdmin
 add_iam_member $MEMBER roles/iam.serviceAccountTokenCreator
 add_iam_member $MEMBER roles/storage.objectCreator
 add_iam_member $MEMBER roles/storage.objectViewer
