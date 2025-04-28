@@ -28,8 +28,33 @@
   - So in case you have already created Oauth Brand in your project with different information with different value that we will use to deploy ImgStudio, it will break Terraform automation.
   - To prevent this issue, you have to either (a) manually update Oauth Brand via GCP Web Console to use latest information, or (b) update CICD configuration (cloudbuild_*.yaml) to use same information, so Terraform will skip the update job.
 
-- **How to Run**
-  - You can run this script to get current Oauth Brand information : `sh script/show_current_oauth_brand.sh <project_id>`
+  - `_NEXT_PUBLIC_EXPORT_FIELDS_OPTIONS_URI`
+    - The URI of the configuration JSON file in its bucket
+    - Ex: `gs://YOUR_COMPANY-imgstudio-export-config/export-fields-options.json`
+  - `_NEXT_PUBLIC_GCS_BUCKET_LOCATION`
+    - The region selected for your GCS buckets
+    - Ex: `europe-west9`
+  - `_NEXT_PUBLIC_VERTEX_API_LOCATION`
+    - The region you want to use for VertexAI APIs
+    - Ex: `europe-west9`
+  - `_NEXT_PUBLIC_GEMINI_MODEL` \= `gemini-2.0-flash-001`
+    - Don’t change this
+  - `_NEXT_PUBLIC_OUTPUT_BUCKET`
+    - The name of the raw generated output content bucket
+    - Ex: `YOUR_COMPANY-imgstudio-output`
+  - `_NEXT_PUBLIC_TEAM_BUCKET`
+    - The name of the shared content bucket
+    - Ex: `YOUR_COMPANY-imgstudio-library`
+  - `_NEXT_PUBLIC_PRINCIPAL_TO_USER_FILTERS`
+    - The sections of your users’ email address used to log in via IAP that will need to be removed in order to get their user ID, separated by commas
+    - Ex: my email address is ‘admin-jdupont@company.com’, the value to set would be `admin-,@company.com` so that the user ID jdupont can be extracted
+  - `_NEXT_PUBLIC_EDIT_ENABLED`
+    - Allow to enable edit features, **set it to `false` if you do not have access yet**
+  - `_NEXT_PUBLIC_SEG_MODEL`
+    - **Only mandatory if Edit is enabled**
+    - Service name for the Vertex Segmentation model, when you get access to it **(see Step 0\)**
+  - `_NEXT_PUBLIC_VEO_ENABLED`
+    - Allow to enable Veo text-to-video generation, **set it to `false` if you do not have access yet**
 
 ## 3\\ Choose CICD option and Run the auto-deployment process
 
