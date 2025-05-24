@@ -161,6 +161,7 @@ Return to your Cloud Shell terminal. You can run all the necessary commands (ins
 
 ```bash
 npm install firebase-admin && \
+npm install typescript && \
 npx tsc && \
 node ./dist/index.js
 ```

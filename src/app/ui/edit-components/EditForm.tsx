@@ -26,7 +26,7 @@ import FormInputDropdown from '../ux-components/InputDropdown'
 import { ImageI } from '../../api/generate-image-utils'
 
 import theme from '../../theme'
-import { editImageV2,editImageV3 } from '../../api/imagen/action'
+import { editImage } from '../../api/imagen/action'
 import { CustomizedAvatarButton, CustomizedIconButton, CustomizedSendButton } from '../ux-components/Button-SX'
 import CustomTooltip from '../ux-components/Tooltip'
 import { appContextDataDefault, useAppContext } from '../../context/app-context'
@@ -180,12 +180,7 @@ export default function EditForm({
       )
         throw Error('Missing either image, prompt or mask')
 
-      // Add logic to distinguish Imagen2 or Imagen3
-      const modelVersion = formData['modelVersion']
-      const newEditedImage = (modelVersion.includes("imagen-3") ? 
-        await editImageV3(formData, appContext):
-        await editImageV2(formData, appContext)
-      )
+      const newEditedImage = await editImage(formData, appContext)
 
       if (newEditedImage !== undefined && typeof newEditedImage === 'object' && 'error' in newEditedImage) {
         const errorMsg = newEditedImage['error'].replaceAll('Error: ', '')

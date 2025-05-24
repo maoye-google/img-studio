@@ -27,7 +27,7 @@ import { decomposeUri, downloadMediaFromGcs, getSignedURL, uploadBase64Image } f
 import { getFullReferenceDescription, rewriteWithGemini } from '../gemini/action'
 import { appContextDataI } from '../../context/app-context'
 import { EditImageFormI } from '../edit-utils'
-const { GoogleAuth, APIError } = require('google-auth-library')
+const { GoogleAuth } = require('google-auth-library')
 
 function cleanResult(inputString: string) {
   return inputString.toString().replaceAll('\n', '').replaceAll(/\//g, '').replaceAll('*', '')
@@ -344,20 +344,11 @@ export async function generateImage(
   appContext: appContextDataI | null
 ) {
   // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client, auth
+  let client
   try {
-    const APIKey = process.env.VERTEX_API_KEY
-    const isAPIKey = APIKey !== undefined && APIKey !== ''
-    if (isAPIKey) {
-      auth = new GoogleAuth({
-        apiKey: APIKey,
-      })
-    } else {
-      auth = new GoogleAuth({
-        scopes: 'https://www.googleapis.com/auth/cloud-platform',
-      })
-    }
-
+    const auth = new GoogleAuth({
+      scopes: 'https://www.googleapis.com/auth/cloud-platform',
+    })
     client = await auth.getClient()
   } catch (error) {
     console.error(error)
@@ -365,7 +356,6 @@ export async function generateImage(
       error: 'Unable to authenticate your account to access images',
     }
   }
-
 
   let references = formData['referenceObjects']
 
@@ -470,7 +460,7 @@ export async function generateImage(
       }
     }
   }
-    const opts = {
+  const opts = {
     url: imagenAPIurl,
     method: 'POST',
     data: reqData,
@@ -542,25 +532,13 @@ export async function generateImage(
   }
 }
 
-export async function editImageV3(formData: EditImageFormI, appContext: appContextDataI | null) {
+export async function editImage(formData: EditImageFormI, appContext: appContextDataI | null) {
   // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client, auth
-
+  let client
   try {
-    const APIKey = process.env.VERTEX_API_KEY
-    const isAPIKey = APIKey !== undefined && APIKey !== ''
-    if (isAPIKey) {
-      auth = new GoogleAuth({
-        apiKey: APIKey,
-      })
-      console.log("API Key Mode")
-    } else {
-      auth = new GoogleAuth({
-        scopes: 'https://www.googleapis.com/auth/cloud-platform',
-      })
-      console.log("Client Auth Mode")
-    }
-
+    const auth = new GoogleAuth({
+      scopes: 'https://www.googleapis.com/auth/cloud-platform',
+    })
     client = await auth.getClient()
   } catch (error) {
     console.error(error)
@@ -602,8 +580,6 @@ export async function editImageV3(formData: EditImageFormI, appContext: appConte
     instances: [
       {
         prompt: formData.prompt as string,
-        //FIXME : This part needs to be changed to work with Imagen2 Edit
-        //Reference API Doc : 
         referenceImages: [
           {
             referenceType: 'REFERENCE_TYPE_RAW',
@@ -731,194 +707,13 @@ export async function editImageV3(formData: EditImageFormI, appContext: appConte
   }
 }
 
-
-export async function editImageV2(formData: EditImageFormI, appContext: appContextDataI | null) {
-  // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client, auth
-
-  try {
-    const APIKey = process.env.VERTEX_API_KEY
-    const isAPIKey = APIKey !== undefined && APIKey !== ''
-    if (isAPIKey) {
-      auth = new GoogleAuth({
-        apiKey: APIKey,
-      })
-      console.log("API Key Mode")
-    } else {
-      auth = new GoogleAuth({
-        scopes: 'https://www.googleapis.com/auth/cloud-platform',
-      })
-      console.log("Client Auth Mode")
-    }
-
-    client = await auth.getClient()
-  } catch (error) {
-    console.error(error)
-    return {
-      error: 'Unable to authenticate your account to access images',
-    }
-  }
-
-  const location = process.env.NEXT_PUBLIC_VERTEX_API_LOCATION
-  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
-  const modelVersion = formData['modelVersion']
-  const imagenAPIurl = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/${modelVersion}:predict`
-
-  if (appContext === undefined) throw Error('No provided app context')
-
-  // 2 - Building Imagen request body
-  let editGcsURI = ''
-  if (
-    appContext === undefined ||
-    appContext === null ||
-    appContext.gcsURI === undefined ||
-    appContext.userID === undefined
-  )
-    throw Error('No provided app context')
-  else {
-    editGcsURI = `${appContext.gcsURI}/${appContext.userID}/edited-images`
-  }
-
-  const refInputImage = formData['inputImage'].startsWith('data:')
-    ? formData['inputImage'].split(',')[1]
-    : formData['inputImage']
-  const refInputMask = formData['inputMask'].startsWith('data:')
-    ? formData['inputMask'].split(',')[1]
-    : formData['inputMask']
-
-  const editMode = formData['editMode']
-
-  const reqData = {
-    instances: [
-      {
-        prompt: formData.prompt as string,
-        image : {
-          bytesBase64Encoded: refInputImage,
-        },
-        mask : {
-          image:{
-            bytesBase64Encoded: refInputMask,
-          }
-        }
-      }
-    ],
-    parameters: {
-      negativePrompt: formData['negativePrompt'],
-      promptLanguage: 'en',
-      seed: 1,
-      editConfig: {
-        baseSteps: parseInt(formData['baseSteps']),
-        editMode: editMode
-      },
-      
-      sampleCount: parseInt(formData['sampleCount']),
-      outputOptions: {
-        mimeType: formData['outputOptions'],
-      },
-      includeRaiReason: true,
-      personGeneration: formData['personGeneration'],
-      storageUri: editGcsURI,
-    },
-  }
-
-  const opts = {
-    url: imagenAPIurl,
-    method: 'POST',
-    data: reqData,
-  }
-
-  // 3 - Editing image
-  let res
-  try {
-    res = await client.request(opts)
-
-    if (res.data.predictions === undefined) {
-      throw Error('There were an issue, no images were generated')
-    }
-    // NO images at all were generated out of all samples
-    if ('raiFilteredReason' in res.data.predictions[0]) {
-      throw Error(cleanResult(res.data.predictions[0].raiFilteredReason))
-    }
-
-    console.log('Image generated with success')
-  } catch (error) {
-    console.error(error)
-
-    const errorString = error instanceof Error ? error.toString() : ''
-    if (
-      errorString.includes('safety settings for peopleface generation') ||
-      errorString.includes("All images were filtered out because they violated Vertex AI's usage guidelines")
-    ) {
-      return {
-        error: errorString.replace('Error: ', ''),
-      }
-    }
-
-    const myError = error as Error & { errors: any[] }
-    const myErrorMsg = myError.errors[0].message
-
-    return {
-      error: myErrorMsg,
-    }
-  }
-
-  // 4 - Creating output image list
-  try {
-    const resultImages: VisionGenerativeModelResultI[] = res.data.predictions
-
-    const isResultBase64Images: boolean = resultImages.every((image) => image.hasOwnProperty('bytesBase64Encoded'))
-
-    let enhancedImageList
-    if (isResultBase64Images)
-      enhancedImageList = await buildImageListFromBase64({
-        imagesBase64: resultImages,
-        targetGcsURI: editGcsURI,
-        aspectRatio: formData['ratio'],
-        width: formData['width'],
-        height: formData['height'],
-        usedPrompt: opts.data.instances[0].prompt,
-        userID: appContext?.userID ? appContext?.userID : '',
-        modelVersion: modelVersion,
-        mode: 'Generated',
-      })
-    else
-      enhancedImageList = await buildImageListFromURI({
-        imagesInGCS: resultImages,
-        aspectRatio: formData['ratio'],
-        width: formData['width'],
-        height: formData['height'],
-        usedPrompt: opts.data.instances[0].prompt,
-        userID: appContext?.userID ? appContext?.userID : '',
-        modelVersion: modelVersion,
-        mode: 'Edited',
-      })
-
-    return enhancedImageList
-  } catch (error) {
-    console.error(error)
-    return {
-      error: 'Issue while editing image.',
-    }
-  }
-}
-
 export async function upscaleImage(sourceUri: string, upscaleFactor: string, appContext: appContextDataI | null) {
   // 1 - Atempting to authent to Google Cloud & fetch project informations
-  let client, auth
-
+  let client
   try {
-    const APIKey = process.env.VERTEX_API_KEY
-    const isAPIKey = APIKey !== undefined && APIKey !== ''
-    if (isAPIKey) {
-      auth = new GoogleAuth({
-        apiKey: APIKey,
-      })
-    } else {
-      auth = new GoogleAuth({
-        scopes: 'https://www.googleapis.com/auth/cloud-platform',
-      })
-    }
-
+    const auth = new GoogleAuth({
+      scopes: 'https://www.googleapis.com/auth/cloud-platform',
+    })
     client = await auth.getClient()
   } catch (error) {
     console.error(error)

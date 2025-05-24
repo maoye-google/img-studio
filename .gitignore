@@ -1,6 +1,5 @@
 # dependencies
-/node_modules
-/**/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 
@@ -8,8 +7,7 @@
 /coverage
 
 # next.js
-/.next/
-/**/.next/
+**/.next/
 /out/
 
 # production
@@ -38,6 +36,9 @@ IDE Files
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# idx folder
+**/.idx
 
 package-lock.json
 

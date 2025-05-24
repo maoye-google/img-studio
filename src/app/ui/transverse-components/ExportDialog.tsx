@@ -51,7 +51,7 @@ import { CustomRadio } from '../ux-components/InputRadioButton'
 import { ExportMediaFormFieldsI, ExportMediaFormI } from '../../api/export-utils'
 import { Controller, set, SubmitHandler, useForm } from 'react-hook-form'
 import FormInputChipGroupMultiple from '../ux-components/InputChipGroupMultiple'
-import { CloseWithoutSubmitWarning, ExportAlerts } from '../transverse-components/ExportAlerts'
+import { CloseWithoutSubmitWarning, ExportAlerts } from './ExportAlerts'
 
 import theme from '../../theme'
 import {

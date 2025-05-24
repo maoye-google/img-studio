@@ -19,21 +19,16 @@ add_iam_member()
   gcloud projects add-iam-policy-binding $PROJECT_ID --member=$1 --role=$2
 }
 
-# ----------------------------------------------------
-
 if [ -z "$GOOGLE_CLOUD_PROJECT" ]
 then
    echo Project not set!
-   echo ▶  What Project Id do you want to deploy the ImgStudio to?
+   echo What Project Id do you want to deploy the ImgStudio to?
    read var_project_id
    gcloud config set project $var_project_id
    export PROJECT_ID=$var_project_id
-#    export GOOGLE_CLOUD_PROJECT=$var_project_id
 else
    export PROJECT_ID=$GOOGLE_CLOUD_PROJECT
 fi
-
-# ----------------------------------------------------
 
 REPO_LOCATION="us-central1"
 
@@ -46,11 +41,8 @@ else
     gsutil mb $BUCKET_NAME
 fi
 
-# ----------------------------------------------------
-
 echo Enabling required APIs...
-gcloud services enable \
-    cloudbuild.googleapis.com \
+gcloud services enable cloudbuild.googleapis.com \
     dataflow.googleapis.com \
     notebooks.googleapis.com \
     compute.googleapis.com \
@@ -61,15 +53,10 @@ gcloud services enable \
     dataform.googleapis.com \
     aiplatform.googleapis.com \
     storage-component.googleapis.com \
-    --project $PROJECT_ID
-
-gcloud services enable \
     firestore.googleapis.com \
-    firebaserules.googleapis.com \
     cloudresourcemanager.googleapis.com \
     compute.googleapis.com \
     servicenetworking.googleapis.com \
-    serviceusage.googleapis.com \
     storage.googleapis.com \
     iam.googleapis.com \
     run.googleapis.com \
@@ -77,39 +64,48 @@ gcloud services enable \
     dns.googleapis.com \
     --project $PROJECT_ID
 
-# ----------------------------------------------------
-
 echo "Granting Cloud Build's Service Account IAM roles to deploy the resources..."
-export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
+PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
 # MEMBER=serviceAccount:$PROJECT_NUMBER@cloudbuild.gserviceaccount.com
 # Since default service account for Cloud Build is changed to Compute Engine's SA, here we need to grant permissions to the correct SA instead.
 MEMBER=serviceAccount:$PROJECT_NUMBER-compute@developer.gserviceaccount.com
-add_iam_member $MEMBER roles/datastore.user
-add_iam_member $MEMBER roles/logging.logWriter
-add_iam_member $MEMBER roles/secretmanager.secretAccessor
+add_iam_member $MEMBER roles/editor
 add_iam_member $MEMBER roles/iam.securityAdmin
-add_iam_member $MEMBER roles/iam.serviceAccountTokenCreator
-add_iam_member $MEMBER roles/storage.objectCreator
-add_iam_member $MEMBER roles/storage.objectViewer
-add_iam_member $MEMBER roles/aiplatform.user
+add_iam_member $MEMBER roles/compute.networkAdmin
+add_iam_member $MEMBER roles/secretmanager.admin
+# Load Balancer admin ?
+# firebase admin ?
+# DNS admin ?
 
-# ----------------------------------------------------
 
-# Create Service Identity to access Google API
 iap_sa=service-$PROJECT_NUMBER@gcp-sa-iap.iam.gserviceaccount.com
-if gcloud iam service-accounts describe ${iap_sa} --project="${PROJECT_ID}" &> /dev/null; then
-    echo "Google Managed service account ${iap_sa} already exists."
-else
-    echo "Creating Google Managed service account ${iap_sa}..."
-    gcloud beta services identity create --service=iap.googleapis.com --project="${PROJECT_ID}"
-fi
-
+echo "Creating Google Managed service account ${iap_sa}..."
+gcloud beta services identity create --service=iap.googleapis.com --project="${PROJECT_ID}"
 MEMBER=serviceAccount:$iap_sa
 add_iam_member $MEMBER roles/run.invoker
 add_iam_member $MEMBER roles/iap.httpsResourceAccessor
 
 
-# ----------------------------------------------------
+if [ -z "$CUSTOMER_APP_NAME" ]
+then
+   echo Customer App Name not set!
+   echo What Name do you want to use for this ImgStudio App ? i.e. "demo"
+   read var_customer_app_name
+   export CUSTOMER_APP_NAME=$var_customer_app_name
+fi
+
+app_sa_name=$CUSTOMER_APP_NAME-imgstudio-sa
+echo "Creating Application Service Account"
+gcloud iam service-accounts create $app_sa_name --display-name='Application Service Account' --project="${PROJECT_ID}"
+MEMBER=serviceAccount:$app_sa_name@${PROJECT_ID}.iam.gserviceaccount.com
+add_iam_member $MEMBER roles/datastore.user
+add_iam_member $MEMBER roles/logging.logWriter
+add_iam_member $MEMBER roles/secretmanager.secretAccessor
+add_iam_member $MEMBER roles/iam.serviceAccountTokenCreator
+add_iam_member $MEMBER roles/storage.objectCreator
+add_iam_member $MEMBER roles/storage.objectViewer
+add_iam_member $MEMBER roles/aiplatform.user
+
 
 echo Create Docker repository
 if gcloud artifacts repositories describe docker-repo --location=$REPO_LOCATION; then

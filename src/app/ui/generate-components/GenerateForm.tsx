@@ -197,7 +197,6 @@ export default function GenerateForm({
 
     setValue('referenceObjects', updatedReferenceObjects)
   }
-
   const addAdditionalRefObject = (objectKey: string) => {
     if (referenceObjects.length >= maxReferences) return
 
